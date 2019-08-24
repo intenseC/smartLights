@@ -241,7 +241,7 @@ void apply(void)
 	  if(proxim) {
 	  minutes = 0;        proxim = 0;
        if(daytime == NIGHT)  {
-	 PORT_P_SW |= (1 << PIN_P_SW); // active = 1; 
+	 PORT_P_SW |= (1 << PIN_P_SW); 
 	      }           
 	}             
 
