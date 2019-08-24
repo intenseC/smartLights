@@ -102,7 +102,7 @@
 
 		 // Led Cathode set as input; Led Anode remains as output
          // Led Cathode pullup off,  Led Anode low 
-	#define LED_READ \
+   #define LED_READ \
 	     { \
 	   LED_C_DIR &= ~(1 << PIN_LED_C); LED_A_DIR |= (1 << PIN_LED_A); \
        PORT_LED_C &= ~(1 << PIN_LED_C); PORT_LED_A &= ~(1 << PIN_LED_A); \
