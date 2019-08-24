@@ -16,25 +16,22 @@
 		#define GAP   12   // timer compare match
 		
 
-		#define M_LIMIT  76500  //  100000 // 65530     4294967290
-    #define NIGHT   1
-		#define DAY      0
-		#define TWILIGHT   580  //880  // ambient darkness threshold 
-		#define C_LIMIT 50000  //1/2 s
+		#define M_LIMIT  76500  
+                #define NIGHT   1
+		#define DAY     0
+		#define TWILIGHT   580  // ambient darkness threshold 
+		#define C_LIMIT 50000  //    1/2 s
 		#define THRESH 4
 	
-		#define T_DELAY   15                       //  minutes
+		#define T_DELAY   15         //  minutes
  		#define HW_TMR
  
 //*****************************************************************************
  	 #define F_CPU 9600000UL
 //*****************************************************************************
           /*   macroses   */  
-        #define maxval(val, max, min)  if ( val > max ) { val = min; }          \
-                                       if ( val < min )  { val = max; }         \
-											         while (0)   
-        #define sbi(var, mask) ((var) |= (uint8_t)(1 << mask))  // Set bit function
-        #define cbi(var, mask) ((var) &= (uint8_t)~(1 << mask)) // Clear bit function
+        #define sbi(var, mask) ((var) |= (1 << mask))  // Set bit function
+        #define cbi(var, mask) ((var) &=  ~(1 << mask)) // Clear bit function
 //*****************************************************************************
 //place includes here
 //*****************************************************************************
@@ -44,7 +41,6 @@
 #include <avr/interrupt.h>
 #include <avr/wdt.h>
 #include <string.h>
- 
 
 	  #ifdef __USART
 	  #include "UART.h"
@@ -69,23 +65,23 @@
 
 
 #define PORT_LED_A                   PORTB
-#define LED_A	                       PINB                        //  LED Anode
-#define PIN_LED_A	                   PB0
-#define LED_A_DIR	                   DDRB
+#define LED_A	                     PINB                        //  LED Anode
+#define PIN_LED_A	             PB0
+#define LED_A_DIR	             DDRB
 
-#define PORT_PIR_SENS        	       PORTB
-#define PIR_SENS	                	 PINB                        // INT from an PIR sensor
-#define PIN_PIR_SENS	    	         PB1                            //
+#define PORT_PIR_SENS        	     PORTB
+#define PIR_SENS	             PINB                        // INT from an PIR sensor
+#define PIN_PIR_SENS	    	     PB1                            //
 
 #define PORT_P_SW                    PORTB
-#define P_SW	                       PINB                         // Fet switch
-#define PIN_P_SW	                   PB3
-#define PORT_P_DIR	                 DDRB
+#define P_SW	                     PINB                         // Fet switch
+#define PIN_P_SW	             PB3
+#define PORT_P_DIR	             DDRB
 
 #define PORT_LED_C                   PORTB
-#define LED_C	                       PINB                         
-#define PIN_LED_C	                   PB2                     //   ADC1     // LED Cathode
-#define LED_C_DIR	                   DDRB                    //
+#define LED_C	                     PINB                         
+#define PIN_LED_C	             PB2                     //   ADC1     // LED Cathode
+#define LED_C_DIR	             DDRB                    //
 
 //*****************************************************************************
        // Led Cathode and  Led Anode as output
@@ -114,14 +110,15 @@
 
 //*****************************************************************************
 // protos
+
 void daylight_measure(void);
 
 //*****************************************************************************
 
 void init_io(void) 
 {
- PORTB =  0b00000000;   													     /* activate pull-ups on  - - - NONE*/
- DDRB   = 0b00000000;       													/*  pins   output  ALL input */  
+ PORTB =  0b00000000;   	/* activate pull-ups on  - - - NONE*/
+ DDRB   = 0b00000000; 		/*  pins   output  ALL input */  
  }
 
 
