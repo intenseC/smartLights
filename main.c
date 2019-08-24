@@ -149,8 +149,8 @@ void timer_init (void)
 }
 //*****************************************************************************
 
-											   // 100kHz / 0.01mS / 10uS
-	 ISR(TIM0_COMPA_vect) 
+	   // 100kHz / 0.01mS / 10uS
+  ISR(TIM0_COMPA_vect) 
 	 #ifdef  HW_TMR	 
   {
     edge++;
@@ -163,7 +163,7 @@ void timer_init (void)
           #endif
     
           #ifdef  INTER 
-	 ISR(INT0_vect)
+  ISR(INT0_vect)
   {
         proxim = 1;
   }
@@ -174,8 +174,8 @@ void timer_init (void)
    {
 	ch &= 0x07;  
 	ADMUX = (ADMUX & 0xF8) | ch; 
-	ADCSRA |= (1<<ADSC);
-	while( ADCSRA & (1<<ADSC));
+	ADCSRA |= (1 << ADSC);
+	while( ADCSRA & (1 << ADSC));
 	return(ADC);
                           }
 //*****************************************************************************
@@ -198,11 +198,11 @@ void compute(void)
 		   		  #ifdef __USART
 			      ltoa(adcReg, buf, 10);
               strcat(buf, " " );
-					       uart_puts(buf);            //  effective baud 56000
+		 uart_puts(buf);            //  effective baud 56000
 	               #endif
-              if(waitMins >= 1) {                  // check daytime once a minute
-					  if(adcReg > TWILIGHT) daytime = NIGHT; else daytime = DAY; 	
-			    waitMins = 0; }
+              if(waitMins >= 1) {           // check daytime once a minute
+ 	      waitMins = 0;  daytime = (adcReg > TWILIGHT) ? NIGHT : DAY; 	
+			    }
                                 }
 }
 
