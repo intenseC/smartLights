@@ -10,7 +10,7 @@
 */
 //*****************************************************************************
 
-		#define  __USART
+//		#define  __USART
 		
 		/*   timing values   */
 		#define GAP   12   // timer compare match
