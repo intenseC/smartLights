@@ -6,7 +6,7 @@
 *       an UART output for easy calibration
 *                               by Larry_B 'intenseC'
 *                              ver. 001beta
-*                          Aug 2k18 - Revised
+*                          Jun 2k17, Aug 2k18 - Revised
 */
 //*****************************************************************************
 
