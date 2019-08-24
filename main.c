@@ -148,27 +148,26 @@ void timer_init (void)
 	  sei();                 // Enable global interrupts
 }
 //*****************************************************************************
-       #ifdef  HW_TMR
+
 											   // 100kHz / 0.01mS / 10uS
-	 ISR(TIM0_COMPA_vect)  
+	 ISR(TIM0_COMPA_vect) 
+	 #ifdef  HW_TMR	 
   {
     edge++;
-    if(++clock > C_LIMIT) {  clock = 0;  if(++onesec > 59) { onesec = 0; minutes++; waitMins++; }     
-	                                                         }
-      daylight_measure();      stage++;   
+    if(++clock > C_LIMIT) {  clock = 0;  
+    if(++onesec > 59) { onesec = 0; minutes++; waitMins++; }     
+	          }     daylight_measure();      stage++; 
   }
-       #else  
-	   	 ISR(TIM0_COMPA_vect)  
-           {
-                stage++;    
-           }
-       #endif
-     #ifdef  INTER 
+          #else 
+                stage++;  
+          #endif
+    
+          #ifdef  INTER 
 	 ISR(INT0_vect)
   {
         proxim = 1;
   }
-       #endif
+          #endif
 //*****************************************************************************
                // read adc 
     int adc_read(int ch)
