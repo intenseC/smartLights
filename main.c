@@ -157,12 +157,12 @@ void timer_init (void)
 	                                                         }
       daylight_measure();      stage++;   
   }
-            #else  
+       #else  
 	   	 ISR(TIM0_COMPA_vect)  
            {
                 stage++;    
            }
-	   #endif
+       #endif
      #ifdef  INTER 
 	 ISR(INT0_vect)
   {
@@ -185,10 +185,10 @@ void timer_init (void)
 
 void timebits(void)
 {
-      #ifndef  HW_TMR
+       #ifndef  HW_TMR
 	  edge++;
      if(++clock > M_LIMIT) {  clock = 0;  if(++onesec > 59) { onesec = 0; minutes++; waitMins++; }           }
-      daylight_measure();       stage++;
+     daylight_measure();       stage++;
        #endif
 }
 
@@ -213,18 +213,18 @@ void daylight_measure(void)
 {
 	   switch (stage)
            {
-        case 0: 
+            case 0: 
 	              LED_DISCHARGE;
-			      break;  
+			          break;  
             case 5: 
 	              LED_CHARGE; 
-			      break;  
+			          break;  
             case 100: 
 	              LED_READ;     
 				  break;   
             case 6200:  
                 adcReg = adc_read(1);
-				 break;
+				  break;
 	        }
          if( stage > C_LIMIT )   stage = 0;
 }
@@ -240,12 +240,12 @@ void apply(void)
          #endif
 	  if(proxim) {
 	  minutes = 0;        proxim = 0;
-    if(daytime == NIGHT)  {
+       if(daytime == NIGHT)  {
 	 PORT_P_SW |= (1 << PIN_P_SW); // active = 1; 
 	      }           
 	}             
 
-		if(minutes >= T_DELAY ) { minutes = 0;  PORT_P_SW &= ~(1 << PIN_P_SW);   }
+	if(minutes >= T_DELAY ) { minutes = 0;  PORT_P_SW &= ~(1 << PIN_P_SW);   }
       }
 
 	 void tick(void)
