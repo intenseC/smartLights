@@ -111,7 +111,7 @@
 //*****************************************************************************
 // protos
 
-void daylight_measure(void);
+ void daylight_measure(void);
 
 //*****************************************************************************
 
@@ -155,7 +155,7 @@ void timer_init (void)
     edge++;
     if(++clock > C_LIMIT) {  clock = 0;  if(++onesec > 59) { onesec = 0; minutes++; waitMins++; }     
 	                                                         }
-      daylight_measure();      stage++;   //      if( stage > C_LIMIT )   stage = 0;
+      daylight_measure();      stage++;   
   }
             #else  
 	   	 ISR(TIM0_COMPA_vect)  
