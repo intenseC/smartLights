@@ -4,7 +4,7 @@
 *       using ordinary  led to measure ambient light
 *       PIR sensor utilyzed to detect human presence
 *       an UART output for easy calibration
-*                               by Larry_B 'intenseC'
+*                               by  'intenseC'
 *                              ver. 001beta
 *                          Jun 2k17, Aug 2k18 - Revised
 */
@@ -131,19 +131,19 @@ void timer_init (void)
           TCCR0B |= (0 << CS02) | (1 << CS01) | (0 << CS00);         // timer0 with 8 prescaler - 1200 000 Hz.
           TCCR0A |= (1 << WGM01); 	        // CTC
          
-         OCR0A   =   GAP;
-		 TCNT0 = 0;
-		 TIMSK0 |= (1 <<  OCIE0A);  
+          OCR0A   =   GAP;
+	  TCNT0 = 0;
+	  TIMSK0 |= (1 <<  OCIE0A);  
        #else
-     TCCR0B |=  (1 << CS00);  
+          TCCR0B |=  (1 << CS00);  
        #endif
 
 	   #ifdef  INTER 
-        GIMSK |= _BV(INT0);
-        MCUCR |= (0 << ISC01) | (1 << ISC00);  //  any change
+          GIMSK |= _BV(INT0);
+          MCUCR |= (0 << ISC01) | (1 << ISC00);  //  any change
        #endif
-        ADMUX |= (0 << MUX1) | (1 << MUX0) | (0 << REFS0);  // adc1 pin / vcc as vref
-        ADCSRA |= ( 1 << ADPS1 ) | ( 1 << ADPS0 ) | ( 1 << ADEN ); //  prescaler = clock / 128
+          ADMUX |= (0 << MUX1) | (1 << MUX0) | (0 << REFS0);  // adc1 pin / vcc as vref
+          ADCSRA |= ( 1 << ADPS1 ) | ( 1 << ADPS0 ) | ( 1 << ADEN ); //  prescaler = clock / 128
       
 	  sei();                 // Enable global interrupts
 }
@@ -195,15 +195,15 @@ void compute(void)
 {
   static unsigned char presc = 3;
             if(--presc == 0)    {  presc = 3; 
-		   		  #ifdef __USART
-			      ltoa(adcReg, buf, 10);
-              strcat(buf, " " );
-		 uart_puts(buf);            //  effective baud 56000
-	               #endif
+	#ifdef __USART
+	ltoa(adcReg, buf, 10);
+        strcat(buf, " " );
+	uart_puts(buf);            //  effective baud 56000
+	#endif
               if(waitMins >= 1) {           // check daytime once a minute
  	      waitMins = 0;  daytime = (adcReg > TWILIGHT) ? NIGHT : DAY; 	
-			    }
-                                }
+	}
+    }
 }
 
 
@@ -239,13 +239,12 @@ void apply(void)
          #endif
 	  if(proxim) {
 	  minutes = 0;        proxim = 0;
-       if(daytime == NIGHT)  {
+   if(daytime == NIGHT)  {
 	 PORT_P_SW |= (1 << PIN_P_SW); 
 	      }           
-	}             
-
-	if(minutes >= T_DELAY ) { minutes = 0;  PORT_P_SW &= ~(1 << PIN_P_SW);   }
-      }
+	} 
+   if(minutes >= T_DELAY ) { minutes = 0;  PORT_P_SW &= ~(1 << PIN_P_SW);   }
+   }
 
 	 void tick(void)
 {
@@ -256,8 +255,8 @@ void apply(void)
 		{
         edge = 0;
         apply();
-		    wdt_reset();
-	                          }
+	wdt_reset();
+	 }
 }
 
 //*****************************************************************************
