@@ -150,18 +150,18 @@ void timer_init (void)
 //*****************************************************************************
 
 	   // 100kHz / 0.01mS / 10uS
-  ISR(TIM0_COMPA_vect) 
-	 #ifdef  HW_TMR	 
-  {
+  ISR(TIM0_COMPA_vect) {
+	 #ifdef  HW_TMR
     edge++;
     if(++clock > C_LIMIT) {  clock = 0;  
     if(++onesec > 59) { onesec = 0; minutes++; waitMins++; }     
 	          }     daylight_measure();      stage++; 
-  }
+  
           #else 
                 stage++;  
           #endif
-    
+  }
+
           #ifdef  INTER 
   ISR(INT0_vect)
   {
@@ -176,8 +176,8 @@ void timer_init (void)
 	ADMUX = (ADMUX & 0xF8) | ch; 
 	ADCSRA |= (1 << ADSC);
 	while( ADCSRA & (1 << ADSC));
-	return(ADC);
-                          }
+	return ADC;
+   }
 //*****************************************************************************
 
 
@@ -186,8 +186,10 @@ void timebits(void)
 {
        #ifndef  HW_TMR
 	  edge++;
-     if(++clock > M_LIMIT) {  clock = 0;  if(++onesec > 59) { onesec = 0; minutes++; waitMins++; }           }
-     daylight_measure();       stage++;
+     if(++clock > M_LIMIT) {  clock = 0;  if(++onesec > 59) { onesec = 0; minutes++; waitMins++; }
+     }
+     daylight_measure();
+     stage++;
        #endif
 }
 
@@ -238,7 +240,7 @@ void apply(void)
 	 if(bit_is_set(PIR_SENS, PIN_PIR_SENS)) proxim = 1;
          #endif
 	  if(proxim) {
-	  minutes = 0;        proxim = 0;
+	  proxim = minutes = 0;
    if(daytime == NIGHT)  {
 	 PORT_P_SW |= (1 << PIN_P_SW); 
 	      }           
