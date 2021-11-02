@@ -50,14 +50,14 @@
 //*****************************************************************************
    char buf[8];
    uint8_t daytime = DAY; 
-   uint8_t active = 0;
-   volatile uint8_t proxim = 0;  // bool to mark human presense
-   volatile  uint16_t  edge = 0, stage = 0; 
-   volatile uint8_t frame = 0;
-   volatile  uint8_t  onesec = 0;
-   volatile  uint16_t clock = 0;
-   uint16_t adcReg = 0;
-   volatile   uint8_t  minutes = 0, waitMins = 0;
+   uint8_t active;
+   volatile uint8_t proxim;  // bool to mark human presense
+   volatile  uint16_t  edge, stage; 
+   volatile uint8_t frame;
+   volatile  uint8_t  onesec;
+   volatile  uint16_t clock;
+   uint16_t adcReg;
+   volatile uint8_t  minutes, waitMins;
 //*****************************************************************************
 // define pins below
 //*****************************************************************************
@@ -104,14 +104,12 @@
 #define LED_READ() \
 	     { \
 	   LED_C_DIR &= ~(1 << PIN_LED_C); LED_A_DIR |= (1 << PIN_LED_A); \
-       PORT_LED_C &= ~(1 << PIN_LED_C); PORT_LED_A &= ~(1 << PIN_LED_A); \
+       	   PORT_LED_C &= ~(1 << PIN_LED_C); PORT_LED_A &= ~(1 << PIN_LED_A); \
 	     } while(0)
 
 //*****************************************************************************
 // proto
-
 static void daylight_measure(void);
-
 //*****************************************************************************
 
 static void init_io(void)  {
@@ -172,7 +170,7 @@ ISR(TIM0_COMPA_vect) {
 }
 #endif
 //*****************************************************************************
-               // read adc 
+      // read adc 
 static int adc_read(int ch) {
 	ch &= 0x07;  
 	ADMUX = (ADMUX & 0xF8) | ch; 
@@ -181,8 +179,6 @@ static int adc_read(int ch) {
 	return ADC;
 }
 //*****************************************************************************
-
-
 
 static void timebits(void) {
 #ifndef  HW_TMR
@@ -201,8 +197,9 @@ static void timebits(void) {
 }
 
 static void compute(void) {
-  static unsigned char presc = 3;
-            if(--presc == 0)    {  presc = 3; 
+  static uint8_t presc = 3;
+       if(--presc == 0)    {
+	presc = 3; 
 #ifdef __USART
 	ltoa(adcReg, buf, 10);
         strcat(buf, " " );
@@ -212,7 +209,7 @@ static void compute(void) {
  	      waitMins = 0;
  	      daytime = (adcReg > TWILIGHT) ? NIGHT : DAY; 	
 	}
-  }
+    }
 }
 
 
@@ -242,24 +239,26 @@ static void daylight_measure(void) {
 
 static void apply(void) {
        compute();
-    	 #ifndef  INTER
-	 if(bit_is_set(PIR_SENS, PIN_PIR_SENS)) proxim = 1;
-         #endif
-	  if(proxim) {
+#ifndef  INTER
+	if(bit_is_set(PIR_SENS, PIN_PIR_SENS)) proxim = 1;
+#endif
+	if(proxim) {
 	  proxim = minutes = 0;
-   if(daytime == NIGHT)  {
+       	if(daytime == NIGHT)  {
 	 PORT_P_SW |= (1 << PIN_P_SW); 
-	      }           
+	      }
 	} 
-   if(minutes >= T_DELAY ) { minutes = 0;  PORT_P_SW &= ~(1 << PIN_P_SW);   }
+  	 if(minutes >= T_DELAY ) { 
+	   minutes = 0;
+	   PORT_P_SW &= ~(1 << PIN_P_SW);
+   }
 }
 
 static void tick(void) {
 #ifndef  HW_TMR 
-           timebits();
+    timebits();
 #endif
- if(edge > 49999) { // 1/2 sec frame
-	
+ if(edge > 49999) {      // 1/2 sec frame
         edge = 0;
         apply();
 	wdt_reset();
@@ -272,7 +271,7 @@ int main(void)   {
     init_io();
     timer_init();
     sei();
-    PORT_P_DIR |= (1 << PIN_P_SW);  // output
+    PORT_P_DIR |= (1 << PIN_P_SW);  // as output
 #ifdef HW_TMR
     while(onesec  < 4);
     PORT_P_SW |= (1 << PIN_P_SW);
@@ -282,10 +281,9 @@ int main(void)   {
     wdt_enable(WDTO_2S);
 
 //*****************************************************************************
-    for(;;) { // eternal loop start
-	          
+    for(;;) { // loop start
 	           tick();
-    }  // for() out
-}  // main out
+    }   // for() loop out
+}       // main out
 //*****************************************************************************
 //*****************************************************************************
