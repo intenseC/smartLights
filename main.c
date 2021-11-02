@@ -65,22 +65,22 @@
 
 #define PORT_LED_A               PORTB
 #define LED_A	                 PINB                        //  LED Anode
-#define PIN_LED_A	             PB0
-#define LED_A_DIR	             DDRB
+#define PIN_LED_A	         PB0
+#define LED_A_DIR	         DDRB
 
 #define PORT_PIR_SENS        	 PORTB
-#define PIR_SENS	             PINB                        // INT from an PIR sensor
+#define PIR_SENS	         PINB                        // INT from an PIR sensor
 #define PIN_PIR_SENS	    	 PB1                            //
 
 #define PORT_P_SW                PORTB
 #define P_SW	                 PINB                         // Fet switch
-#define PIN_P_SW	             PB3
-#define PORT_P_DIR	             DDRB
+#define PIN_P_SW	         PB3
+#define PORT_P_DIR	         DDRB
 
 #define PORT_LED_C               PORTB
 #define LED_C	                 PINB                         
-#define PIN_LED_C	             PB2                     //   ADC1     // LED Cathode
-#define LED_C_DIR	             DDRB                    //
+#define PIN_LED_C	         PB2                     //   ADC1     // LED Cathode
+#define LED_C_DIR	         DDRB                    //
 
 //*****************************************************************************
        // Led Cathode and  Led Anode as output
