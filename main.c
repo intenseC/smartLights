@@ -184,8 +184,7 @@ static int adc_read(int ch) {
 
 
 
-static void timebits(void)
-{
+static void timebits(void) {
 #ifndef  HW_TMR
      edge++;
      if(++clock > M_LIMIT) {
