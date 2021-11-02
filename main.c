@@ -221,19 +221,19 @@ static void daylight_measure(void) {
 	   switch (stage)
            {
             case 0: 
-	              LED_DISCHARGE;
+	              LED_DISCHARGE();
 			          break;  
             case 5: 
-	              LED_CHARGE; 
+	              LED_CHARGE(); 
 			          break;  
             case 100: 
-	              LED_READ;     
+	              LED_READ();     
 				  break;   
             case 6200:  
                 adcReg = adc_read(1);
 				  break;
 	        }
-         if( stage > C_LIMIT )
+         if(stage > C_LIMIT)
          stage = 0;
 }
 
