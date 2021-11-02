@@ -142,8 +142,8 @@ cli();                    // disable global interrupts
       
 sei();                 // Enable global interrupts
 }
-//*****************************************************************************
 
+//*****************************************************************************
 	   // 100kHz / 0.01mS / 10uS
 ISR(TIM0_COMPA_vect) {
 #ifdef  HW_TMR
@@ -195,6 +195,7 @@ static void timebits(void) {
      stage++;
 #endif
 }
+//*****************************************************************************
 
 static void compute(void) {
   static uint8_t presc = 3;
@@ -211,8 +212,7 @@ static void compute(void) {
 	}
     }
 }
-
-
+//*****************************************************************************
 
 static void daylight_measure(void) {
 	   switch (stage)
@@ -233,8 +233,6 @@ static void daylight_measure(void) {
          if(stage > C_LIMIT)
          stage = 0;
 }
-
-//****************************************************************************
 //*****************************************************************************
 
 static void apply(void) {
@@ -253,6 +251,7 @@ static void apply(void) {
 	   PORT_P_SW &= ~(1 << PIN_P_SW);
    }
 }
+//*****************************************************************************
 
 static void tick(void) {
 #ifndef  HW_TMR 
@@ -264,7 +263,6 @@ static void tick(void) {
 	wdt_reset();
     }
 }
-
 //*****************************************************************************
 
 int main(void)   { 
